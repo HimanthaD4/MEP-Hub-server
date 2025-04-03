@@ -1,29 +1,38 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import mongoose from 'mongoose';
 import cors from 'cors';
-import connectDB from './config/db.js';
-import authRoutes from './routes/authRoutes.js';
 import userRoutes from './routes/userRoutes.js';
-import { notFound, errorHandler } from './middlewares/errorMiddleware.js';
+import cookieParser from 'cookie-parser';
 
 dotenv.config();
-connectDB();
 
 const app = express();
-app.use(cors());
-app.use(express.json());
 
-app.use('/api/auth', authRoutes);
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log('[DB] MongoDB connected successfully'))
+  .catch(err => console.error(`[DB ERROR] Connection failed: ${err.message}`));
+
+app.use(cors({
+  origin: 'http://localhost:3000',
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+app.use(express.json());
+app.use(cookieParser());
 app.use('/api/users', userRoutes);
 
-app.get('/api/test', (req, res) => {
-  res.json({ message: 'API is working' });
+app.use((req, res) => {
+  console.error(`[ROUTE ERROR] Not found: ${req.originalUrl}`);
+  res.status(404).json({ 
+    error: 'Route not found',
+    details: `Endpoint ${req.originalUrl} does not exist` 
+  });
 });
-
-app.use(notFound);
-app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`[SERVER] Running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`);
+  console.log(`[AUTH] Token expires in 30 days`);
 });
