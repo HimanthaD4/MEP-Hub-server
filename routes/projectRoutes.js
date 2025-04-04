@@ -1,26 +1,24 @@
 import express from 'express';
 import {
-  createProject,
   getProjects,
-  getProjectById,
+  createProject,
   updateProject,
-  toggleVisibility,
-  deleteProject
+  deleteProject,
+  toggleVisibility
 } from '../controllers/projectController.js';
-import { protect, admin } from '../middleware/authMiddleware.js';
+import { protect } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
 router.route('/')
-  .post(protect, admin, createProject)
-  .get(protect, admin, getProjects);
+  .get(getProjects)
+  .post(protect, createProject);
 
 router.route('/:id')
-  .get(protect, admin, getProjectById)
-  .put(protect, admin, updateProject)
-  .delete(protect, admin, deleteProject);
+  .put(protect, updateProject)
+  .delete(protect, deleteProject);
 
 router.route('/:id/visibility')
-  .patch(protect, admin, toggleVisibility);
+  .patch(protect, toggleVisibility);
 
 export default router;
