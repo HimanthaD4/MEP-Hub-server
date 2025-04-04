@@ -4,21 +4,17 @@ import {
   createProject,
   updateProject,
   deleteProject,
-  toggleVisibility
+  toggleVisibility,
+  toggleStatus
 } from '../controllers/projectController.js';
-import { protect } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
-router.route('/')
-  .get(getProjects)
-  .post(protect, createProject);
-
-router.route('/:id')
-  .put(protect, updateProject)
-  .delete(protect, deleteProject);
-
-router.route('/:id/visibility')
-  .patch(protect, toggleVisibility);
+router.get('/', getProjects);
+router.post('/', createProject);
+router.put('/:id', updateProject);
+router.delete('/:id', deleteProject);
+router.patch('/toggle-visibility/:id', toggleVisibility);
+router.patch('/toggle-status/:id', toggleStatus);
 
 export default router;

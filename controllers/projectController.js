@@ -1,112 +1,86 @@
 import Project from '../models/Project.js';
-import asyncHandler from 'express-async-handler';
 
-// @desc    Get all projects
-// @route   GET /api/projects
-// @access  Public
-const getProjects = asyncHandler(async (req, res) => {
-  const { status, search } = req.query;
-  
-  const query = {};
-  
-  if (status && status !== 'all') {
-    query.status = status;
+// GET all
+export const getProjects = async (req, res) => {
+  try {
+    const projects = await Project.find().sort({ createdAt: -1 });
+    res.json(projects);
+  } catch (error) {
+    console.error('Error fetching projects:', error);
+    res.status(500).json({ message: 'Server error' });
   }
-  
-  if (search) {
-    query.$or = [
-      { title: { $regex: search, $options: 'i' } },
-      { description: { $regex: search, $options: 'i' } },
-      { contractor: { $regex: search, $options: 'i' } }
-    ];
+};
+
+// CREATE
+export const createProject = async (req, res) => {
+  try {
+    const newProject = new Project(req.body);
+    const saved = await newProject.save();
+    res.status(201).json(saved);
+  } catch (error) {
+    console.error('Error creating project:', error);
+    res.status(400).json({ message: error.message });
   }
+};
 
-  const projects = await Project.find(query).sort('-createdAt');
-  res.json(projects);
-});
-
-// @desc    Create new project
-// @route   POST /api/projects
-// @access  Private
-const createProject = asyncHandler(async (req, res) => {
-  const { title, description, amount, startDate, endDate, status, visible, contractor } = req.body;
-
-  const project = await Project.create({
-    title,
-    description,
-    amount,
-    startDate,
-    endDate,
-    status,
-    visible,
-    contractor
-  });
-
-  res.status(201).json(project);
-});
-
-// @desc    Update project
-// @route   PUT /api/projects/:id
-// @access  Private
-const updateProject = asyncHandler(async (req, res) => {
-  const { title, description, amount, startDate, endDate, status, visible, contractor } = req.body;
-
-  const project = await Project.findById(req.params.id);
-
-  if (!project) {
-    res.status(404);
-    throw new Error('Project not found');
+// UPDATE
+export const updateProject = async (req, res) => {
+  try {
+    const updated = await Project.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
+    if (!updated) return res.status(404).json({ message: 'Not found' });
+    res.json(updated);
+  } catch (error) {
+    console.error('Error updating project:', error);
+    res.status(400).json({ message: 'Update failed' });
   }
+};
 
-  project.title = title || project.title;
-  project.description = description || project.description;
-  project.amount = amount || project.amount;
-  project.startDate = startDate || project.startDate;
-  project.endDate = endDate !== undefined ? endDate : project.endDate;
-  project.status = status || project.status;
-  project.visible = visible !== undefined ? visible : project.visible;
-  project.contractor = contractor || project.contractor;
-
-  const updatedProject = await project.save();
-  res.json(updatedProject);
-});
-
-// @desc    Delete project
-// @route   DELETE /api/projects/:id
-// @access  Private
-const deleteProject = asyncHandler(async (req, res) => {
-  const project = await Project.findById(req.params.id);
-
-  if (!project) {
-    res.status(404);
-    throw new Error('Project not found');
+// DELETE
+export const deleteProject = async (req, res) => {
+  try {
+    const deleted = await Project.findByIdAndDelete(req.params.id);
+    if (!deleted) return res.status(404).json({ message: 'Not found' });
+    res.json({ message: 'Deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting project:', error);
+    res.status(500).json({ message: 'Delete failed' });
   }
+};
 
-  await project.remove();
-  res.json({ success: true, message: 'Project removed' });
-});
+// TOGGLE VISIBILITY
+export const toggleVisibility = async (req, res) => {
+  try {
+    const project = await Project.findById(req.params.id);
+    if (!project) return res.status(404).json({ message: 'Not found' });
 
-// @desc    Toggle project visibility
-// @route   PATCH /api/projects/:id/visibility
-// @access  Private
-const toggleVisibility = asyncHandler(async (req, res) => {
-  const project = await Project.findById(req.params.id);
-
-  if (!project) {
-    res.status(404);
-    throw new Error('Project not found');
+    project.visible = !project.visible;
+    await project.save();
+    res.json(project);
+  } catch (error) {
+    console.error('Error toggling visibility:', error);
+    res.status(500).json({ message: 'Server error' });
   }
+};
 
-  project.visible = !project.visible;
-  const updatedProject = await project.save();
+// TOGGLE STATUS (pending → active → completed → pending)
+export const toggleStatus = async (req, res) => {
+  try {
+    const project = await Project.findById(req.params.id);
+    if (!project) return res.status(404).json({ message: 'Not found' });
 
-  res.json(updatedProject);
-});
+    const nextStatus = {
+      pending: 'active',
+      active: 'completed',
+      completed: 'pending'
+    };
 
-export {
-  getProjects,
-  createProject,
-  updateProject,
-  deleteProject,
-  toggleVisibility
+    project.status = nextStatus[project.status];
+    await project.save();
+    res.json(project);
+  } catch (error) {
+    console.error('Error toggling status:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
 };
