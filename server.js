@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import userRoutes from './routes/userRoutes.js';
 import projectRoutes from './routes/projectRoutes.js';
+import consultRoutes from './routes/consultantRoutes.js';
 import cookieParser from 'cookie-parser';
 
 dotenv.config();
@@ -24,6 +25,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use('/api/users', userRoutes);
 app.use('/api/projects', projectRoutes);
+app.use('/api/consultants', consultRoutes);
 
 app.use((req, res) => {
   console.error(`[ROUTE ERROR] Not found: ${req.originalUrl}`);
