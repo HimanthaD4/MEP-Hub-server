@@ -1,24 +1,26 @@
-import express from 'express';
+import express from 'express'
 import {
   getConsultants,
+  getConsultantById,
   createConsultant,
   updateConsultant,
   deleteConsultant,
   toggleVisibility
-} from '../controllers/consultantController.js';
-import { protect } from '../middleware/authMiddleware.js';
+} from '../controllers/consultantController.js'
+import { protect } from '../middleware/authMiddleware.js'
 
-const router = express.Router();
+const router = express.Router()
 
 router.route('/')
   .get(getConsultants)
-  .post(createConsultant);
+  .post(createConsultant)
 
 router.route('/:id')
+  .get(getConsultantById)
   .put(updateConsultant)
-  .delete(deleteConsultant);
+  .delete(deleteConsultant)
 
 router.route('/:id/visibility')
-  .patch(toggleVisibility);
+  .patch(toggleVisibility)
 
-export default router;
+export default router

@@ -1,6 +1,7 @@
 import express from 'express';
 import {
   getProjects,
+  getProjectById,
   createProject,
   updateProject,
   deleteProject,
@@ -12,13 +13,14 @@ const router = express.Router();
 
 router.route('/')
   .get(getProjects)
-  .post(protect, createProject);
+  .post(createProject);
 
 router.route('/:id')
-  .put(protect, updateProject)
-  .delete(protect, deleteProject);
+  .get(getProjectById) // This handles GET /api/projects/:id
+  .put(updateProject)
+  .delete(deleteProject);
 
 router.route('/:id/visibility')
-  .patch(protect, toggleVisibility);
+  .patch(toggleVisibility);
 
 export default router;

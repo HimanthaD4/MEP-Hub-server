@@ -81,6 +81,20 @@ const consultantSchema = new mongoose.Schema({
       max: [new Date().getFullYear(), 'Year cannot be in the future']
     }
   }],
+  paymentModeDetails: {
+    paymentMode: {
+      type: String,
+      required: [true, 'Payment mode is required'],
+      enum: {
+        values: ['online', 'cheque', 'cash'],
+        message: 'Payment mode must be online, cheque, or cash'
+      }
+    },
+    paymentDate: {
+      type: Date,
+      required: [true, 'Payment date is required']
+    }
+  },
   registrationMode: {
     type: String,
     required: [true, 'Registration mode is required'],
@@ -97,14 +111,6 @@ const consultantSchema = new mongoose.Schema({
     min: [2, 'Multi-year registration must be at least 2 years'],
     max: [5, 'Multi-year registration cannot exceed 5 years']
   },
-  paymentMode: {
-    type: String,
-    required: [true, 'Payment mode is required'],
-    enum: {
-      values: ['online', 'cheque', 'cash'],
-      message: 'Payment mode must be online, cheque, or cash'
-    }
-  },
   status: {
     type: String,
     required: [true, 'Consultant status is required'],
@@ -117,6 +123,11 @@ const consultantSchema = new mongoose.Schema({
   visible: {
     type: Boolean,
     default: true
+  },
+  consultantType: {
+    type: String,
+    enum: ['MEP', 'Project Management', 'Cost'],
+    required: [true, 'Consultant type is required']
   },
   createdAt: {
     type: Date,

@@ -1,18 +1,16 @@
 import Consultant from '../models/Consultant.js';
 import asyncHandler from 'express-async-handler';
 
-// @desc    Get all consultants
-// @route   GET /api/consultants
-// @access  Public
+// Get all consultants
 const getConsultants = asyncHandler(async (req, res) => {
-  const { status, search, specialty } = req.query;
-  
+  const { status, search, specialty, consultantType } = req.query;
+
   const query = {};
-  
+
   if (status && status !== 'all') {
     query.status = status;
   }
-  
+
   if (search) {
     query.$or = [
       { name: { $regex: search, $options: 'i' } },
@@ -25,13 +23,27 @@ const getConsultants = asyncHandler(async (req, res) => {
     query.specialties = specialty;
   }
 
+  if (consultantType) {
+    query.consultantType = consultantType;
+  }
+
   const consultants = await Consultant.find(query).sort('-createdAt');
   res.json(consultants);
 });
 
-// @desc    Create new consultant
-// @route   POST /api/consultants
-// @access  Private
+// Get a consultant by ID
+const getConsultantById = asyncHandler(async (req, res) => {
+  const consultant = await Consultant.findById(req.params.id);
+
+  if (!consultant) {
+    res.status(404);
+    throw new Error('Consultant not found');
+  }
+
+  res.json(consultant);
+});
+
+// Create a new consultant
 const createConsultant = asyncHandler(async (req, res) => {
   const {
     name,
@@ -44,9 +56,10 @@ const createConsultant = asyncHandler(async (req, res) => {
     projects,
     registrationMode,
     registrationYears,
-    paymentMode,
+    paymentModeDetails,
     status,
-    visible
+    visible,
+    consultantType
   } = req.body;
 
   const consultant = await Consultant.create({
@@ -60,17 +73,16 @@ const createConsultant = asyncHandler(async (req, res) => {
     projects,
     registrationMode,
     registrationYears,
-    paymentMode,
+    paymentModeDetails,
     status,
-    visible
+    visible,
+    consultantType
   });
 
   res.status(201).json(consultant);
 });
 
-// @desc    Update consultant
-// @route   PUT /api/consultants/:id
-// @access  Private
+// Update an existing consultant
 const updateConsultant = asyncHandler(async (req, res) => {
   const {
     name,
@@ -83,9 +95,10 @@ const updateConsultant = asyncHandler(async (req, res) => {
     projects,
     registrationMode,
     registrationYears,
-    paymentMode,
+    paymentModeDetails,
     status,
-    visible
+    visible,
+    consultantType
   } = req.body;
 
   const consultant = await Consultant.findById(req.params.id);
@@ -105,17 +118,16 @@ const updateConsultant = asyncHandler(async (req, res) => {
   consultant.projects = projects || consultant.projects;
   consultant.registrationMode = registrationMode || consultant.registrationMode;
   consultant.registrationYears = registrationYears !== undefined ? registrationYears : consultant.registrationYears;
-  consultant.paymentMode = paymentMode || consultant.paymentMode;
+  consultant.paymentModeDetails = paymentModeDetails || consultant.paymentModeDetails;
   consultant.status = status || consultant.status;
   consultant.visible = visible !== undefined ? visible : consultant.visible;
+  consultant.consultantType = consultantType || consultant.consultantType;
 
   const updatedConsultant = await consultant.save();
   res.json(updatedConsultant);
 });
 
-// @desc    Delete consultant
-// @route   DELETE /api/consultants/:id
-// @access  Private
+// Delete a consultant
 const deleteConsultant = asyncHandler(async (req, res) => {
   const consultant = await Consultant.findById(req.params.id);
 
@@ -124,15 +136,12 @@ const deleteConsultant = asyncHandler(async (req, res) => {
     throw new Error('Consultant not found');
   }
 
-  // Use deleteOne() instead of remove()
   await Consultant.deleteOne({ _id: req.params.id });
-  
+
   res.json({ success: true, message: 'Consultant removed' });
 });
 
-// @desc    Toggle consultant visibility
-// @route   PATCH /api/consultants/:id/visibility
-// @access  Private
+// Toggle the visibility of a consultant
 const toggleVisibility = asyncHandler(async (req, res) => {
   const consultant = await Consultant.findById(req.params.id);
 
@@ -149,6 +158,7 @@ const toggleVisibility = asyncHandler(async (req, res) => {
 
 export {
   getConsultants,
+  getConsultantById,
   createConsultant,
   updateConsultant,
   deleteConsultant,

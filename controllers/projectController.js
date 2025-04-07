@@ -1,7 +1,7 @@
 import Project from '../models/Project.js';
 import asyncHandler from 'express-async-handler';
 
-// @desc    Get all projects
+// @desc    Get all projects with all details
 // @route   GET /api/projects
 // @access  Public
 const getProjects = asyncHandler(async (req, res) => {
@@ -21,8 +21,26 @@ const getProjects = asyncHandler(async (req, res) => {
     ];
   }
 
-  const projects = await Project.find(query).sort('-createdAt');
+  const projects = await Project.find(query)
+    .select('-__v')  // Exclude version key
+    .sort('-createdAt');
+  
   res.json(projects);
+});
+
+// @desc    Get single project with all details
+// @route   GET /api/projects/:id
+// @access  Public
+const getProjectById = asyncHandler(async (req, res) => {
+  const project = await Project.findById(req.params.id)
+    .select('-__v');  // Exclude version key
+  
+  if (!project) {
+    res.status(404);
+    throw new Error('Project not found');
+  }
+
+  res.json(project);
 });
 
 // @desc    Create new project
@@ -42,7 +60,11 @@ const createProject = asyncHandler(async (req, res) => {
     contractor
   });
 
-  res.status(201).json(project);
+  // Remove version key from the response
+  const projectResponse = project.toObject();
+  delete projectResponse.__v;
+
+  res.status(201).json(projectResponse);
 });
 
 // @desc    Update project
@@ -68,7 +90,12 @@ const updateProject = asyncHandler(async (req, res) => {
   project.contractor = contractor || project.contractor;
 
   const updatedProject = await project.save();
-  res.json(updatedProject);
+  
+  // Remove version key from the response
+  const updatedProjectResponse = updatedProject.toObject();
+  delete updatedProjectResponse.__v;
+
+  res.json(updatedProjectResponse);
 });
 
 // @desc    Delete project
@@ -82,7 +109,7 @@ const deleteProject = asyncHandler(async (req, res) => {
     throw new Error('Project not found');
   }
 
-  await project.remove();
+  await Project.deleteOne({ _id: req.params.id });
   res.json({ success: true, message: 'Project removed' });
 });
 
@@ -99,12 +126,17 @@ const toggleVisibility = asyncHandler(async (req, res) => {
 
   project.visible = !project.visible;
   const updatedProject = await project.save();
+  
+  // Remove version key from the response
+  const updatedProjectResponse = updatedProject.toObject();
+  delete updatedProjectResponse.__v;
 
-  res.json(updatedProject);
+  res.json(updatedProjectResponse);
 });
 
 export {
   getProjects,
+  getProjectById,
   createProject,
   updateProject,
   deleteProject,
