@@ -1,4 +1,4 @@
-import Consultant from '../models/Consultant.js';
+import Consultant from '../models/consultantModel.js';
 import asyncHandler from 'express-async-handler';
 
 // Get all consultants
