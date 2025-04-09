@@ -13,44 +13,43 @@ dotenv.config();
 
 const app = express();
 
-// Define CORS options
+
 const corsOptions = {
-  origin: process.env.CORS_ORIGIN.replace(/\/$/, ""),
+  origin: process.env.CORS_ORIGIN, 
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 };
 
-// Apply CORS middleware
 app.use(cors(corsOptions));
 
-// Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('[DB] MongoDB connected successfully'))
   .catch(err => console.error(`[DB ERROR] Connection failed: ${err.message}`));
 
-// Middleware setup
+app.use(cors({
+  origin: 'http://localhost:3000',
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
+
+
 app.use(express.json());
 app.use(cookieParser());
-
-// Test Route (GET and POST)
-app.get('/', (req, res) => {
-  res.send({ message: 'MEP Hub API is live 🎉' });
-});
 
 app.post('/', (req, res) => {
   res.send({ message: 'POST request received at the root!' });
 });
 
-// Define API Routes
+
 app.use('/api/users', userRoutes);
 app.use('/api/projects', projectRoutes);
 app.use('/api/consultants', consultRoutes);
 app.use('/api/contractors', contractorsRoutes);
 app.use('/api/agents', agentRoutes);
-app.use(cors(corsOptions));  
 
-// 404 Route Error Handler
 app.use((req, res) => {
   console.error(`[ROUTE ERROR] Not found: ${req.originalUrl}`);
   res.status(404).json({ 
@@ -59,7 +58,12 @@ app.use((req, res) => {
   });
 });
 
-// Set the server to listen on the defined port
+
+app.get('/', (req, res) => {
+  res.send({ message: 'MEP Hub API is live 🎉' });
+});
+
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`[SERVER] Running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`);
