@@ -13,6 +13,16 @@ dotenv.config();
 
 const app = express();
 
+
+const corsOptions = {
+  origin: process.env.CORS_ORIGIN, // This reads the production domain from the .env file
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+};
+
+app.use(cors(corsOptions));
+
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('[DB] MongoDB connected successfully'))
   .catch(err => console.error(`[DB ERROR] Connection failed: ${err.message}`));
