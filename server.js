@@ -6,6 +6,7 @@ import userRoutes from './routes/userRoutes.js';
 import projectRoutes from './routes/projectRoutes.js';
 import consultRoutes from './routes/consultantRoutes.js';
 import contractorsRoutes from './routes/contractorRoutes.js';
+import agentRoutes from './routes/agentRoutes.js';
 import cookieParser from 'cookie-parser';
 
 dotenv.config();
@@ -28,6 +29,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/projects', projectRoutes);
 app.use('/api/consultants', consultRoutes);
 app.use('/api/contractors', contractorsRoutes);
+app.use('/api/agents', agentRoutes);
 
 app.use((req, res) => {
   console.error(`[ROUTE ERROR] Not found: ${req.originalUrl}`);

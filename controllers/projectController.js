@@ -1,4 +1,4 @@
-import Project from '../models/ProjectModel.js';
+import Project from '../models/projectModel.js';
 import asyncHandler from 'express-async-handler';
 
 // @desc    Get all projects with all details
