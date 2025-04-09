@@ -15,7 +15,7 @@ const app = express();
 
 // Define CORS options
 const corsOptions = {
-  origin: process.env.CORS_ORIGIN,  // For Vercel deployment URL
+  origin: process.env.CORS_ORIGIN.replace(/\/$/, ""),
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
   allowedHeaders: ['Content-Type', 'Authorization'],
@@ -48,6 +48,7 @@ app.use('/api/projects', projectRoutes);
 app.use('/api/consultants', consultRoutes);
 app.use('/api/contractors', contractorsRoutes);
 app.use('/api/agents', agentRoutes);
+app.use(cors(corsOptions));  
 
 // 404 Route Error Handler
 app.use((req, res) => {
