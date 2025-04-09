@@ -1,3 +1,4 @@
+// routes/projectRoutes.js
 import express from 'express';
 import {
   getProjects,
@@ -7,7 +8,7 @@ import {
   deleteProject,
   toggleVisibility
 } from '../controllers/projectController.js';
-import { protect } from '../middleware/authMiddleware.js';
+
 
 const router = express.Router();
 
@@ -16,7 +17,7 @@ router.route('/')
   .post(createProject);
 
 router.route('/:id')
-  .get(getProjectById) // This handles GET /api/projects/:id
+  .get(getProjectById)
   .put(updateProject)
   .delete(deleteProject);
 

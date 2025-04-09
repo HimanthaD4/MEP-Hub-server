@@ -1,3 +1,4 @@
+// controllers/projectController.js
 import Project from '../models/upcommingModel.js';
 import asyncHandler from 'express-async-handler';
 
@@ -5,12 +6,16 @@ import asyncHandler from 'express-async-handler';
 // @route   GET /api/projects
 // @access  Public
 const getProjects = asyncHandler(async (req, res) => {
-  const { status, search } = req.query;
+  const { status, search, type } = req.query;
   
   const query = {};
   
   if (status && status !== 'all') {
     query.status = status;
+  }
+  
+  if (type && type !== 'all') {
+    query.type = type;
   }
   
   if (search) {
@@ -22,7 +27,7 @@ const getProjects = asyncHandler(async (req, res) => {
   }
 
   const projects = await Project.find(query)
-    .select('-__v')  // Exclude version key
+    .select('-__v')
     .sort('-createdAt');
   
   res.json(projects);
@@ -33,7 +38,7 @@ const getProjects = asyncHandler(async (req, res) => {
 // @access  Public
 const getProjectById = asyncHandler(async (req, res) => {
   const project = await Project.findById(req.params.id)
-    .select('-__v');  // Exclude version key
+    .select('-__v');
   
   if (!project) {
     res.status(404);
@@ -47,11 +52,22 @@ const getProjectById = asyncHandler(async (req, res) => {
 // @route   POST /api/projects
 // @access  Private
 const createProject = asyncHandler(async (req, res) => {
-  const { title, description, amount, startDate, endDate, status, visible, contractor } = req.body;
+  const { 
+    title, 
+    description, 
+    type,
+    amount, 
+    startDate, 
+    endDate, 
+    status, 
+    visible, 
+    contractor 
+  } = req.body;
 
   const project = await Project.create({
     title,
     description,
+    type,
     amount,
     startDate,
     endDate,
@@ -60,7 +76,6 @@ const createProject = asyncHandler(async (req, res) => {
     contractor
   });
 
-  // Remove version key from the response
   const projectResponse = project.toObject();
   delete projectResponse.__v;
 
@@ -71,7 +86,17 @@ const createProject = asyncHandler(async (req, res) => {
 // @route   PUT /api/projects/:id
 // @access  Private
 const updateProject = asyncHandler(async (req, res) => {
-  const { title, description, amount, startDate, endDate, status, visible, contractor } = req.body;
+  const { 
+    title, 
+    description, 
+    type,
+    amount, 
+    startDate, 
+    endDate, 
+    status, 
+    visible, 
+    contractor 
+  } = req.body;
 
   const project = await Project.findById(req.params.id);
 
@@ -82,6 +107,7 @@ const updateProject = asyncHandler(async (req, res) => {
 
   project.title = title || project.title;
   project.description = description || project.description;
+  project.type = type || project.type;
   project.amount = amount || project.amount;
   project.startDate = startDate || project.startDate;
   project.endDate = endDate !== undefined ? endDate : project.endDate;
@@ -91,7 +117,6 @@ const updateProject = asyncHandler(async (req, res) => {
 
   const updatedProject = await project.save();
   
-  // Remove version key from the response
   const updatedProjectResponse = updatedProject.toObject();
   delete updatedProjectResponse.__v;
 
@@ -127,7 +152,6 @@ const toggleVisibility = asyncHandler(async (req, res) => {
   project.visible = !project.visible;
   const updatedProject = await project.save();
   
-  // Remove version key from the response
   const updatedProjectResponse = updatedProject.toObject();
   delete updatedProjectResponse.__v;
 

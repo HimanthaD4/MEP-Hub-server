@@ -1,3 +1,4 @@
+// models/upcommingModel.js
 import mongoose from 'mongoose';
 
 const projectSchema = new mongoose.Schema({
@@ -12,6 +13,14 @@ const projectSchema = new mongoose.Schema({
     required: [true, 'Project description is required'],
     trim: true,
     maxlength: [500, 'Description cannot exceed 500 characters']
+  },
+  type: {
+    type: String,
+    required: [true, 'Project type is required'],
+    enum: {
+      values: ['residential', 'commercial', 'industrial', 'mix development', 'office complex'],
+      message: 'Type must be residential, commercial, industrial, mix development, or office complex'
+    }
   },
   amount: {
     type: Number,
