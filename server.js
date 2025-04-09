@@ -39,6 +39,12 @@ app.use((req, res) => {
   });
 });
 
+
+app.get('/', (req, res) => {
+  res.send({ message: 'MEP Hub API is live 🎉' });
+});
+
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`[SERVER] Running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`);
