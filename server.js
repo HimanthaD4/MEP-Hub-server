@@ -8,7 +8,12 @@ import consultRoutes from './routes/consultantRoutes.js';
 import contractorsRoutes from './routes/contractorRoutes.js';
 import agentRoutes from './routes/agentRoutes.js';
 import directorRoutes from './routes/directorRoutes.js';
+import lecturerRoutes from './routes/lecturerRoutes.js';
+import jobVacancyRoutes from './routes/jobVacancyRoutes.js';
+import jobSeekerRoutes from './routes/jobSeekerRoutes.js';
+import institutionRoutes from './routes/institutionRoutes.js';
 import cookieParser from 'cookie-parser';
+
 
 dotenv.config();
 
@@ -75,6 +80,10 @@ app.use('/api/consultants', consultRoutes);
 app.use('/api/contractors', contractorsRoutes);
 app.use('/api/agents', agentRoutes);
 app.use('/api/directors', directorRoutes);
+app.use('/api/lecturers', lecturerRoutes);
+app.use('/api/job-vacancies', jobVacancyRoutes);
+app.use('/api/jobseekers', jobSeekerRoutes);
+app.use('/api/institutions', institutionRoutes);
 
 // 404 handler
 app.use((req, res) => {
