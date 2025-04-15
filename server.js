@@ -21,11 +21,14 @@ dotenv.config();
 const app = express();
 
 // Configure CORS properly
-const allowedOrigins = [
-  process.env.CORS_ORIGIN, 
-  'http://localhost:3000', // For local development
-  'https://mephub.vercel.app' // Your production frontend
-];
+// const allowedOrigins = [
+//   process.env.CORS_ORIGIN, 
+//   'http://localhost:3000', // For local development
+//   'https://mephub.vercel.app' // Your production frontend
+// ];
+
+
+const allowedOrigins = process.env.CORS_ORIGIN.split(',').map(origin => origin.trim());
 
 const corsOptions = {
   origin: function (origin, callback) {
