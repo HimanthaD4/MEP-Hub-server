@@ -12,6 +12,8 @@ import lecturerRoutes from './routes/lecturerRoutes.js';
 import jobVacancyRoutes from './routes/jobVacancyRoutes.js';
 import jobSeekerRoutes from './routes/jobSeekerRoutes.js';
 import institutionRoutes from './routes/institutionRoutes.js';
+import contactRoutes from './routes/contactRoutes.js';
+
 import cookieParser from 'cookie-parser';
 
 
@@ -84,6 +86,8 @@ app.use('/api/lecturers', lecturerRoutes);
 app.use('/api/job-vacancies', jobVacancyRoutes);
 app.use('/api/jobseekers', jobSeekerRoutes);
 app.use('/api/institutions', institutionRoutes);
+app.use('/api/contact', contactRoutes);
+
 
 // 404 handler
 app.use((req, res) => {
