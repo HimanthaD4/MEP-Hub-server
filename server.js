@@ -88,7 +88,7 @@ app.use('/api/lecturers', lecturerRoutes);
 app.use('/api/job-vacancies', jobVacancyRoutes);
 app.use('/api/jobseekers', jobSeekerRoutes);
 app.use('/api/institutions', institutionRoutes);
-app.use('/api/contacts', contactRoutes);
+app.use('/api/contact', contactRoutes);
 
 // 404 handler
 app.use((req, res) => {
