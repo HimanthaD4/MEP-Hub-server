@@ -26,6 +26,10 @@ Explore the platform live here:
 
 MEPHub.lk is a **MERN stack** professional networking platform tailored exclusively for Sri Lanka’s Mechanical, Electrical, and Plumbing (MEP) industry. The platform connects professionals, consultants, contractors, and suppliers, promoting collaboration and business growth within the construction sector.
 
+The frontend is built with React.js and **normal CSS** for styling. Images and documents are stored in **MongoDB**. There is **no payment integration** at present. 
+
+The **admin panel** can be accessed via the `/admin` route after logging in with appropriate admin credentials.
+
 ---
 
 ## ✨ Key Features
@@ -38,7 +42,7 @@ MEPHub.lk is a **MERN stack** professional networking platform tailored exclusiv
 - **Role-Based Access:** Different permissions for professionals, contractors, and admins.  
 - **PDF Reports:** Generate detailed project and profile reports.  
 - **Analytics Dashboard:** Visualize industry trends using Chart.js.  
-- **Secure Payments:** Premium memberships via Stripe integration.  
+- **Admin Panel:** Manage users, projects, and site content at `/admin`.  
 
 ---
 
@@ -63,20 +67,18 @@ MEPHub.lk is a **MERN stack** professional networking platform tailored exclusiv
 | Frontend           | Backend               | Database          | Deployment     | Other Integrations         |
 |--------------------|-----------------------|-------------------|----------------|---------------------------|
 | React.js           | Node.js + Express.js  | MongoDB Atlas     | Vercel (Frontend) | JWT Authentication       |
-| Tailwind CSS       | Redis Caching         |                   | Render (Backend) | Elasticsearch             |
-|                    | Dockerized Backend    |                   |                | Stripe Payment Gateway     |
+| Normal CSS         | Redis Caching         |                   | Render (Backend) | Elasticsearch             |
 
 ---
 
-## ⚙️ Installation & Setup Guide
+## ⚙️ Full Installation & Setup Guide
 
 ### Prerequisites
 
 - Node.js (v16 or above)  
 - MongoDB Atlas Cluster  
-- Redis Server (for caching)  
-- AWS S3 Bucket (for document and image storage)  
-- Stripe Account (for payment integration)  
+- Redis Server (optional for caching)  
+- Git  
 
 ---
 
@@ -85,5 +87,6 @@ MEPHub.lk is a **MERN stack** professional networking platform tailored exclusiv
 ```bash
 # Clone frontend repository
 git clone https://github.com/HimanthaD4/MEP-Hub-client.git
+
 # Clone backend repository
 git clone https://github.com/HimanthaD4/MEP-Hub-server.git
