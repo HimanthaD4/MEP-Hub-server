@@ -1,48 +1,55 @@
-<h1 align="center">⚙️ MEPHub.lk - Professional Network Platform for Sri Lanka's MEP Industry ⚙️</h1>
+# ⚙️ MEPHub.lk - Professional Network Platform for Sri Lanka's MEP Industry ⚙️
 
 <p align="center">
-  <img src="https://res.cloudinary.com/demo/image/upload/v1688160535/mephub_logo.png" alt="MEPHub Logo" width="180" />
+  <img src="https://github.com/HimanthaD4/MEP-Hub-client/blob/main/src/images/logo.png?raw=true" alt="MEPHub Logo" width="120" />
 </p>
+
+<h2 align="center">Connecting Sri Lanka's MEP Professionals for a Better Tomorrow</h2>
 
 ---
 
 ## 🌐 Live Demo
 
-Explore the platform live here:  
+Explore the platform live:  
 ➡️ [https://mephub.lk](https://mephub.lk)
+
+Admin Panel:  
+➡️ [https://mephub.lk/admin](https://mephub.lk/admin)
 
 ---
 
 ## 📂 Repository Links
 
 | Repository        | Description                             | Link                                                                                      |
-|-------------------|-------------------------------------|-------------------------------------------------------------------------------------------|
-| Frontend Client   | React.js frontend codebase           | [MEPHub Client Frontend](https://github.com/HimanthaD4/MEP-Hub-client)                     |
-| Backend Server    | Node.js + Express backend API        | [MEPHub Backend Server](https://github.com/HimanthaD4/MEP-Hub-server)                      |
+|-------------------|-----------------------------------------|-------------------------------------------------------------------------------------------|
+| Frontend Client   | React.js frontend codebase              | [MEPHub Client Frontend](https://github.com/HimanthaD4/MEP-Hub-client)                   |
+| Backend Server    | Node.js + Express backend API           | [MEPHub Backend Server](https://github.com/HimanthaD4/MEP-Hub-server)                    |
 
 ---
 
 ## 🔍 Project Overview
 
-MEPHub.lk is a **MERN stack** professional networking platform tailored exclusively for Sri Lanka’s Mechanical, Electrical, and Plumbing (MEP) industry. The platform connects professionals, consultants, contractors, and suppliers, promoting collaboration and business growth within the construction sector.
+MEPHub.lk is a **MERN stack** professional networking platform tailored exclusively for Sri Lanka’s Mechanical, Electrical, and Plumbing (MEP) industry. The platform connects professionals, consultants, contractors, and suppliers to promote collaboration and business growth within the construction sector.
 
-The frontend is built with React.js and **normal CSS** for styling. Images and documents are stored in **MongoDB**. There is **no payment integration** at present. 
-
-The **admin panel** can be accessed via the `/admin` route after logging in with appropriate admin credentials.
+✅ **Frontend:** React.js with clean, responsive layout using normal CSS (no frameworks)  
+✅ **Backend:** Node.js, Express.js, MongoDB Atlas for data and file storage  
+✅ **Image Storage:** Directly inside MongoDB  
+✅ **No Payment Integration**  
+✅ **Admin Panel Access:** `/admin` route for admin-level management  
 
 ---
 
 ## ✨ Key Features
 
-- **Professional Directory:** Extensive searchable database of MEP professionals and contractors.  
-- **Project Showcase:** Share and explore technical project details and portfolios.  
-- **Business Networking:** Secure messaging & connection system for professionals.  
-- **Job Portal:** Listings of MEP-specific job opportunities.  
-- **Supplier Marketplace:** Directory of MEP equipment suppliers and vendors.  
-- **Role-Based Access:** Different permissions for professionals, contractors, and admins.  
-- **PDF Reports:** Generate detailed project and profile reports.  
-- **Analytics Dashboard:** Visualize industry trends using Chart.js.  
-- **Admin Panel:** Manage users, projects, and site content at `/admin`.  
+- 🌐 **Professional Directory** - Searchable database of MEP professionals and contractors  
+- 🏗️ **Project Showcase** - Share and explore technical projects  
+- 💬 **Business Networking** - Secure messaging and connections  
+- 📄 **Job Portal** - MEP-specific job listings  
+- 🛠️ **Supplier Marketplace** - Equipment suppliers and vendor directory  
+- 🔒 **Role-Based Access** - Different permissions for professionals, contractors, admins  
+- 📑 **PDF Reports** - Generate reports for projects and profiles  
+- 📊 **Analytics Dashboard** - Visualize industry trends with Chart.js  
+- ⚙️ **Admin Panel** - Manage users, content, and data at `/admin`  
 
 ---
 
@@ -50,11 +57,11 @@ The **admin panel** can be accessed via the `/admin` route after logging in with
 
 <div align="center">
 
-| ![Admin Panel](https://res.cloudinary.com/demo/image/upload/v1688160704/admin_panel.png) | ![Cards on Home](https://res.cloudinary.com/demo/image/upload/v1688160704/home_cards.png) | ![Featured Projects](https://res.cloudinary.com/demo/image/upload/v1688160704/featured_projects.png) |
+| ![Admin Panel](https://github.com/HimanthaD4/MEP-Hub-client/blob/main/src/images/sreenshots/adminpanel.png?raw=true) | ![Cards on Home](https://github.com/HimanthaD4/MEP-Hub-client/blob/main/src/images/sreenshots/cards.png?raw=true) | ![Featured Projects](https://github.com/HimanthaD4/MEP-Hub-client/blob/main/src/images/sreenshots/featuredProjects.png?raw=true) |
 |:--------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------:|
-| **Admin Panel**                                                                        | **Cards on Home Page**                                                                  | **Featured Projects Section**                                                                   |
+| **Admin Panel**                                                                        | **Home Page Cards**                                                                   | **Featured Projects**                                                                          |
 
-| ![Home Page](https://res.cloudinary.com/demo/image/upload/v1688160704/home_page.png) | ![Project Details](https://res.cloudinary.com/demo/image/upload/v1688160704/project_details.png) |
+| ![Home Page](https://github.com/HimanthaD4/MEP-Hub-client/blob/main/src/images/sreenshots/home.png?raw=true) | ![Project Details](https://github.com/HimanthaD4/MEP-Hub-client/blob/main/src/images/sreenshots/projectDetails.png?raw=true) |
 |:-----------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------:|
 | **Home Page**                                                                       | **Project Details Page**                                                                       |
 
@@ -65,9 +72,9 @@ The **admin panel** can be accessed via the `/admin` route after logging in with
 ## 🛠️ Technology Stack
 
 | Frontend           | Backend               | Database          | Deployment     | Other Integrations         |
-|--------------------|-----------------------|-------------------|----------------|---------------------------|
+|--------------------|-----------------------|-------------------|----------------|----------------------------|
 | React.js           | Node.js + Express.js  | MongoDB Atlas     | Vercel (Frontend) | JWT Authentication       |
-| Normal CSS         | Redis Caching         |                   | Render (Backend) | Elasticsearch             |
+| Normal CSS         | Redis Caching (optional) |                   | Render (Backend) | Elasticsearch (optional) |
 
 ---
 
@@ -75,10 +82,10 @@ The **admin panel** can be accessed via the `/admin` route after logging in with
 
 ### Prerequisites
 
-- Node.js (v16 or above)  
-- MongoDB Atlas Cluster  
-- Redis Server (optional for caching)  
-- Git  
+- **Node.js** (v16 or above recommended)  
+- **MongoDB Atlas Cluster**  
+- **Git**  
+- **Redis** *(optional for caching, but recommended)*  
 
 ---
 
